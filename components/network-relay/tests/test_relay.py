@@ -305,10 +305,10 @@ class RelayTests(unittest.IsolatedAsyncioTestCase):
         for endpoint in raw['profiles'].values(): endpoint['port'] = phoneport
         self.config.write_text(json.dumps(raw))
 
-    async def connect(self):
+    async def connect(self, connector=None):
         if not self.engine.server:
             await self.engine.start(port=0, monitor=False)
-        return await asyncio.open_connection('127.0.0.1',self.engine.server.sockets[0].getsockname()[1])
+        return await (connector or asyncio.open_connection)('127.0.0.1',self.engine.server.sockets[0].getsockname()[1])
 
     async def request(self, body):
         reader,writer=await self.connect()
@@ -472,10 +472,13 @@ class RelayTests(unittest.IsolatedAsyncioTestCase):
             result=await original(*args,**kwargs)
             self.network=dict(self.network,name='airport')
             return result
-        reader,writer=await self.connect(); self.connections.append(writer)
         with patch.object(relay.asyncio,'open_connection',side_effect=changing):
+            # Install the upstream hook before the server can accept the client.
+            reader,writer=await self.connect(connector=original); self.connections.append(writer)
             writer.write(b'stale'); await writer.drain()
-            self.assertEqual(await asyncio.wait_for(reader.read(),1),b'')
+            try: data=await asyncio.wait_for(reader.read(),1)
+            except ConnectionResetError: data=b''  # Closing unread TCP bytes may send RST.
+            self.assertEqual(data,b'')
         await asyncio.sleep(.03)
         self.assertEqual(received,[b''])
 
@@ -498,15 +501,16 @@ class RelayTests(unittest.IsolatedAsyncioTestCase):
             attempts.append((args,kwargs))
             entered.set(); await release.wait()
             return await original(*args,**kwargs)
-        # Open the client before replacing the upstream connector.
-        reader,writer=await self.connect(); self.connections.append(writer)
         with patch.object(relay.asyncio,'open_connection',side_effect=delayed):
+            reader,writer=await self.connect(connector=original); self.connections.append(writer)
             writer.write(b'stale'); await writer.drain()
             await asyncio.wait_for(entered.wait(),1)
             self.network=dict(self.network,name='airport')
             self.engine.health_checker=lambda endpoint,timeout:False
             await self.engine.refresh(); release.set()
-            self.assertEqual(await asyncio.wait_for(reader.read(),1),b'')
+            try: data=await asyncio.wait_for(reader.read(),1)
+            except ConnectionResetError: data=b''
+            self.assertEqual(data,b'')
         self.assertEqual(len(attempts),1)
 
     async def test_stale_health_completion_cannot_repopulate_candidates(self):

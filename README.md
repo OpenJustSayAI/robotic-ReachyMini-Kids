@@ -35,6 +35,8 @@ tags:
 
 需要 Python 3.11+（本次验证 3.12）、uv，以及导入时需要的 ffprobe（随 FFmpeg 安装）。
 
+干净 Linux 环境还需要官方 SDK 的 PyGObject/Cairo/GStreamer 系统依赖；Ubuntu 24.04 示例见 [CI 的系统依赖安装步骤](https://github.com/OpenJustSayAI/robotic-ReachyMini-Kids/blob/main/.github/workflows/test.yml)。机器人上的音频系统依赖应按所用官方镜像核对，不因 pip 安装成功就视为真机音频已验证。
+
 ```bash
 uv venv --python 3.12
 uv pip install --python .venv/bin/python -e '.[preview,dev]'
