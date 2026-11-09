@@ -1,0 +1,27 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+/config.json
+/config.local.json
+*.local.json
+*.pem
+*.key
+logs/
+*.log
+snapshots/
+.DS_Store
+dist/
+
+# Private audio and derived catalog
+*.mp3
+*.wav
+*.zip
+manifest.json
+.ducky-data/
+build/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/

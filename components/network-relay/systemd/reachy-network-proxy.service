@@ -1,0 +1,43 @@
+[Unit]
+Description=Reachy local proxy with Mac and Android upstream selection
+After=network-online.target NetworkManager.service
+Wants=network-online.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+TimeoutStartSec=60
+User=pollen
+Group=pollen
+ExecStart=/usr/bin/python3 /usr/local/lib/reachy-network/relay.py --config /etc/reachy-network/config.json --status /run/reachy-network/status.json
+Restart=on-failure
+RestartSec=3
+RuntimeDirectory=reachy-network
+RuntimeDirectoryMode=0750
+UMask=0077
+NoNewPrivileges=true
+AmbientCapabilities=CAP_NET_RAW
+CapabilityBoundingSet=CAP_NET_RAW
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_PACKET AF_NETLINK
+ReadWritePaths=/run/reachy-network
+IPAddressDeny=any
+IPAddressAllow=localhost
+IPAddressAllow=10.0.0.0/8
+IPAddressAllow=172.16.0.0/12
+IPAddressAllow=192.168.0.0/16
+IPAddressAllow=fe80::/10
+IPAddressAllow=224.0.0.251/32
+IPAddressAllow=ff02::fb/128
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,12 @@
+{
+  "listen_port": 18080,
+  "connect_timeout": 4,
+  "health_timeout": 8,
+  "health_interval": 20,
+  "mac": {"host": "my-mac.local", "port": 1082, "enabled": false},
+  "profiles": {
+    "HomeWiFi": {"ip": "192.168.50.20", "mac": "02:00:00:00:00:02", "port": 2080, "allowed_cidrs": ["192.168.50.0/24"]},
+    "OfficeWiFi": {"ip": "192.168.60.20", "mac": "02:00:00:00:00:03", "port": 2080, "allowed_cidrs": ["192.168.60.0/24"]},
+    "PhoneHotspot": {"gateway": true, "port": 2080}
+  }
+}

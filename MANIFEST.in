@@ -1,0 +1,10 @@
+include LICENSE README.md index.html style.css
+include THIRD_PARTY_NOTICES.md CONTRIBUTING.md SECURITY.md .env.example
+include scripts/check_release.py
+recursive-include components/network-relay *.py *.md *.json *.service *.conf
+recursive-include docs *.md *.txt
+recursive-include ducky_reachy_mini/static *.html *.css *.js
+global-exclude *.mp3 *.wav *.zip manifest.json
+global-exclude config.local.json
+prune .ducky-data
+prune .venv

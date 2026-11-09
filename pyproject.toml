@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ducky_reachy_mini"
+version = "0.1.0"
+description = "Ducky original-voice local player for Reachy Mini Wireless"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT AND Apache-2.0"
+license-files = ["LICENSE", "docs/licenses/*.txt"]
+dependencies = [
+  "reachy-mini==1.14.0",
+  "fastapi>=0.115,<1",
+  "uvicorn>=0.30,<1",
+  "numpy>=2.2,<3",
+  "soundfile>=0.13,<1",
+  "scipy>=1.15,<2",
+  "json5>=0.17.3,<1",
+]
+keywords = ["reachy-mini-app"]
+
+[project.optional-dependencies]
+preview = ["sounddevice>=0.5,<1"]
+dev = ["pytest>=8,<10", "httpx>=0.28,<1", "ruff>=0.12,<1", "build>=1.2,<2", "wheel>=0.45,<1"]
+
+[project.scripts]
+ducky-import = "ducky_reachy_mini.import_assets:main"
+ducky-preview = "ducky_reachy_mini.preview:main"
+
+[project.entry-points."reachy_mini_apps"]
+ducky_reachy_mini = "ducky_reachy_mini.main:DuckyReachyMini"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["ducky_reachy_mini*"]
+
+[tool.setuptools.package-data]
+ducky_reachy_mini = ["static/*.html", "static/*.css", "static/*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

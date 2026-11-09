@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ducky · 原声小屋</title><link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <header><a class="brand" href="/">ducky<span>原声小屋</span></a><span class="connection" id="connection">正在连接…</span></header>
+    <section class="welcome">
+      <div><p class="eyebrow">HELLO, LITTLE FRIEND</p><h1>熟悉的 Ducky，<br>再陪你玩一次。</h1><p class="intro">今天，从最喜欢的跳泥坑开始。</p></div>
+      <div class="duck-scene" aria-hidden="true"><span class="hello">Let's play!</span><svg viewBox="0 0 300 240"><ellipse cx="150" cy="210" rx="126" ry="17" fill="#c0d8d3"/><ellipse cx="151" cy="207" rx="82" ry="8" fill="none" stroke="#87b1a6" stroke-width="2"/><path d="M66 146 Q33 115 49 112 Q67 123 81 122 Q91 99 125 113 L170 145 Q214 162 218 181 Q220 210 159 211 Q82 212 66 176Z" fill="#f4bf3a"/><path d="M128 142 Q108 127 110 96 Q111 49 151 47 Q192 45 198 87 Q200 127 170 144Z" fill="#ffce46"/><path d="M183 100 Q214 94 223 108 Q218 121 187 119Z" fill="#df713d"/><circle cx="174" cy="88" r="5" fill="#373e31"/><circle cx="176" cy="86" r="1.5" fill="white"/><ellipse cx="170" cy="111" rx="9" ry="5" fill="#e8a448"/><path d="M104 158 Q141 148 163 174 Q144 192 118 182" fill="#e7ac30"/><path d="M128 52 Q119 36 133 39 Q141 40 145 48" fill="#ffce46"/></svg></div>
+    </section>
+    <section class="player" aria-label="播放控制">
+      <div class="player-top"><div><span class="eyebrow" id="play-state" role="status" aria-live="polite">准备中</span><h2 id="now-title">选一句，听听 Ducky</h2><p id="now-text">点下面的卡片开始，不会自动播放。</p></div><span class="speaker" id="output"></span></div>
+      <div class="progress-row"><progress id="progress" value="0" max="1" aria-label="播放进度"></progress><span id="time">0:00 / 0:00</span></div>
+      <div class="controls"><div class="transport"><button id="toggle" class="primary" disabled>暂停</button><button id="replay" disabled>↻ 再听一次</button><button id="stop" disabled>■ 停止</button></div><label class="volume">音量 <input id="volume" type="range" min="0" max="100" value="35" aria-label="音量"><output id="volume-value">35%</output></label></div>
+      <p id="notice" role="alert" hidden></p>
+    </section>
+    <section class="muddy" aria-labelledby="muddy-heading"><div class="section-heading"><div><p class="eyebrow">OUR LITTLE FAVOURITE</p><h2 id="muddy-heading">跳进小泥坑</h2></div><p>雨靴穿好，快乐出发。</p></div><div class="quick-clips" id="quick-clips"></div></section>
+    <section class="library" aria-labelledby="library-heading"><div class="section-heading"><div><p class="eyebrow">A LITTLE MORE DUCKY</p><h2 id="library-heading">熟悉的声音都在这里</h2></div><span id="count"></span></div>
+      <div class="filters"><label>找一个场景<select id="group"><option value="">全部声音</option></select></label><label class="search">找一句话<input id="search" type="search" placeholder="试试 jump、晚安、月亮" autocomplete="off"></label></div>
+      <div id="clips" class="clip-list"></div><p id="empty" hidden>还没找到，换个词试试吧。</p>
+    </section>
+    <footer>想停就停，想听就再来一次。<span>Ducky · 家长陪伴模式</span></footer>
+  </main><script src="/static/main.js" defer></script>
+</body></html>
